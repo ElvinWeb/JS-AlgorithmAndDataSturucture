@@ -424,5 +424,30 @@ class BinarySearchTree {
     if (!found) return undefined;
     return current;
   }
+  BFS() {
+    let queue = [];
+    let data = [];
+    let node = null;
+
+    queue.push(this.root);
+    while (queue.length) {
+      node = queue.shift();
+      data.push(node.val);
+
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    return data;
+  }
+  DFSPreOrder() {
+    let data = [];
+    function traverse(node) {
+      data.push(node.val);
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+    }
+    traverse(this.root);
+    return data;
+  }
 }
 //#endregion
