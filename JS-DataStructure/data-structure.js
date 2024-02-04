@@ -471,3 +471,31 @@ class BinarySearchTree {
   }
 }
 //#endregion
+
+//#region
+class MaxBinaryHeap {
+  constructor() {
+    this.values = [41, 39, 33, 18, 27, 12];
+  }
+  bubbleUp() {
+    let idx = this.values.length - 1;
+    const addedElement = this.values[idx];
+    while (true) {
+      let parentIdx = Math.floor((idx - 1) / 2);
+      let parent = this.values[parentIdx];
+      if (addedElement > parent) {
+        this.values[parentIdx] = addedElement;
+        this.values[idx] = parent;
+        idx = parentIdx;
+      }
+    }
+  }
+  insert(element) {
+    this.values.push(element);
+    this.bubbleUp();
+
+    return element;
+  }
+}
+
+//#endregion
