@@ -605,7 +605,7 @@ class PriorityQueue {
   }
 }
 //#endregion
-//#region Hash Table
+//#region Hash-Table
 class HashTable {
   constructor(size = 53) {
     this.keyMap = new Array(size);
@@ -645,7 +645,7 @@ class HashTable {
   }
   values() {
     let values = [];
-    
+
     for (let i = 0; i < this.keyMap.length; i++) {
       if (this.keyMap[i]) {
         for (let j = 0; j < this.keyMap[i].length; j++) {
@@ -670,6 +670,38 @@ class HashTable {
       }
     }
     return keys;
+  }
+}
+//#endregion
+//#region Graphs
+class Graph {
+  constructor() {
+    this.adjecencyList = {};
+  }
+  addVertex(vertex) {
+    if (!this.adjecencyList[vertex]) {
+      this.adjecencyList[vertex] = [];
+    }
+  }
+  removeVertex(vertex) {
+    if (this.adjecencyList[vertex]) {
+      while (this.adjecencyList[vertex].length) {
+        const adjacentVertex = this.adjecencyList[vertex].pop();
+        this.removeEdge(vertex, adjacentVertex);
+      }
+
+      delete this.adjecencyList[vertex];
+    }
+  }
+  addEdge(v1, v2) {
+    this.adjecencyList[v1].push(v2);
+    this.adjecencyList[v2].push(v1);
+  }
+  removeEdge(v1, v2) {
+    if (this.adjecencyList[v1])
+      this.adjecencyList[v1] = this.adjecencyList[v1].filter((v) => v !== v2);
+    if (this.adjecencyList[v2])
+      this.adjecencyList[v2] = this.adjecencyList[v2].filter((v) => v !== v1);
   }
 }
 //#endregion
