@@ -1,5 +1,4 @@
 //#region SinglyLinkedList
-
 class Node {
   constructor(val) {
     this.node = val;
@@ -140,7 +139,6 @@ class SinglyLinkedList {
     return this;
   }
 }
-
 //#endregion
 //#region DoublyLinkedList
 class Node {
@@ -276,7 +274,6 @@ class DoublyLinkedList {
     return removedNode;
   }
 }
-
 //#endregion
 //#region StacksAndQueues
 class Node {
@@ -349,7 +346,6 @@ class Queue {
     return this;
   }
 }
-
 //#endregion
 //#region BinarySearchTrees
 class Node {
@@ -703,5 +699,63 @@ class Graph {
     if (this.adjecencyList[v2])
       this.adjecencyList[v2] = this.adjecencyList[v2].filter((v) => v !== v1);
   }
+  depthFirstRecursive(start) {
+    const result = [];
+    const visited = {};
+    const adjecencyList = this.adjecencyList;
+    function dfs(vertex) {
+      if (!vertex) return null;
+      visited[vertex] = true;
+      result.push(vertex);
+      adjecencyList[vertex].forEach((neighbour) => {
+        if (!visited[neighbour]) {
+          return dfs(neighbour);
+        }
+      });
+    }
+    dfs(start);
+  }
+  depthFirstIterative(start) {
+    const stack = [start];
+    const visited = {};
+    const result = [];
+    let currentVertex;
+    visited[start] = true;
+
+    while (stack.length) {
+      currentVertex = stack.pop();
+      result.push(currentVertex);
+
+      this.adjecencyList[currentVertex].forEach((neighbour) => {
+        if (!visited[neighbour]) {
+          visited[neighbour] = true;
+          stack.push(neighbour);
+        }
+      });
+    }
+    return result;
+  }
+  breadthFirstSearch(start) {
+    const queue = [start];
+    const result = [];
+    const visited = {};
+    let currentVertex;
+    visited[start] = true;
+
+    while (queue.length) {
+      currentVertex = queue.shift();
+      result.push(currentVertex);
+
+      this.adjecencyList[currentVertex].forEach((neighbour) => {
+        if (!visited[neighbour]) {
+          visited[neighbour] = true;
+          queue.push(neighbour);
+        }
+      });
+    }
+
+    return result;
+  }
 }
+
 //#endregion
