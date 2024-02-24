@@ -757,5 +757,76 @@ class Graph {
     return result;
   }
 }
+//#endregion
+//#region WeightedGraph
+class PriorityQueue {
+  constructor() {
+    this.values = [];
+  }
+  enqueue(val, priority) {
+    this.values.push({ val, priority });
+    this.sort();
+  }
+  dequeue() {
+    return this.values.shift();
+  }
+  sort() {
+    this.values.sort((a, b) => a.priority - b.priority);
+  }
+}
+class WeightedGraph {
+  constructor() {
+    this.adjecencyList = [];
+  }
+  addVertex(vertex) {
+    if (!this.adjecencyList[vertex]) this.adjecencyList[vertex] = [];
+  }
+  addEdge(vertex1, vertex2, weight) {
+    this.adjecencyList[vertex1].push({ node: vertex2, weight });
+    this.adjecencyList[vertex2].push({ node: vertex1, weight });
+  }
+  dijkstra(start, finish) {
+    const nodes = new PriorityQueue();
+    const previous = {};
+    const distances = {};
+    let path = [];
+    let smallest;
 
+    for (const vertex in this.adjecencyList) {
+      if (vertex === start) {
+        distances[vertex] = 0;
+        nodes.enqueue(vertex, 0);
+      } else {
+        distances[vertex] = Infinity;
+        nodes.enqueue(vertex, Infinity);
+      }
+      previous[vertex] = null;
+    }
+
+    while (nodes.values.length) {
+      smallest = nodes.dequeue().val;
+      if (smallest === finish) {
+        while (previous[smallest]) {
+          path.push(smallest);
+          smallest = previous[smallest];
+        }
+        break;
+      }
+
+      if (smallest || distances[smallest] !== Infinity) {
+        for (let neighbour in this.adjecencyList[smallest]) {
+          let nextNode = this.adjecencyList[smallest][neighbour];
+          let candidate = distances[smallest] + nextNode.weight;
+          let nextNeighbor = nextNode.node;
+          if (candidate < distances[nextNeighbor]) {
+            distances[nextNeighbor] = candidate;
+            previous[nextNeighbor] = smallest;
+            nodes.enqueue(nextNeighbor, candidate);
+          }
+        }
+      }
+    }
+    return path.concat(smallest).reverse();
+  }
+}
 //#endregion
